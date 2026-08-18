@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>ผูกดวงเสริมใจ | ดูดวงวันเกิดสไตล์ไทย</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+  :root{
+    color-scheme: light;
+    --primary:        #E15339;
+    --primary-dark:   #C13F29;
+    --primary-light:  #FCE3DC;
+    --gold:           #C9971D;
+    --gold-light:     #F6EACB;
+    --gold-dark:      #9C7513;
+    --ink:            #2B2016;
+    --ink-secondary:  #6E6156;
+    --muted:          #9C9086;
+    --surface:        #FFFFFF;
+    --page-bg:        #FBF3E8;
+    --page-bg-2:      #F6E4D3;
+    --border:         rgba(43,32,22,0.09);
+    --track:          #F3E4CE;
+    --good:           #0ca30c;
+    --warning:        #b5790a;
+    --warning-bg:     #FCEFCF;
+    --serious:        #c14f2e;
+    --serious-bg:     #FCE3DC;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Kanit','Segoe UI',system-ui,-apple-system,'Tahoma',sans-serif;
+    background:
+      radial-gradient(circle at 15% 0%, var(--page-bg-2) 0%, transparent 45%),
+      radial-gradient(circle at 100% 20%, #F9E9D6 0%, transparent 40%),
+      var(--page-bg);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:24px 14px 60px;
+    line-height:1.55;
+  }
+
+  .app{
+    width:100%;
+    max-width:460px;
+  }
+
+  header.top{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  header.top .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--ink-secondary);
+    font-size:12px;
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  header.top .badge a{color:var(--primary-dark);font-weight:600;text-decoration:none;}
+  header.top h1{
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  header.top h1 span{color:var(--primary);}
+  header.top p{
+    margin:0;
+    font-size:14px;
+    color:var(--ink-secondary);
+  }
+
+  .card{
+    background:var(--surface);
+    border-radius:22px;
+    padding:26px 22px;
+    box-shadow:0 14px 34px -18px rgba(43,32,22,0.35), 0 2px 8px rgba(43,32,22,0.05);
+    border:1px solid var(--border);
+    margin-bottom:16px;
+  }
+
+  /* ---------- FORM SCREEN ---------- */
+  #screen-form .icon-row{
+    text-align:center;
+    font-size:44px;
+    margin-bottom:6px;
+  }
+  #screen-form h2{
+    text-align:center;
+    font-size:18px;
+    margin:0 0 4px;
+  }
+  #screen-form .sub{
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-secondary);
+    margin:0 0 20px;
+  }
+  label.field-label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-secondary);
+    margin-bottom:6px;
+  }
+  input[type="date"]{
+    width:100%;
+    padding:13px 14px;
+    border-radius:14px;
+    border:1.5px solid var(--border);
+    font-family:inherit;
+    font-size:15px;
+    color:var(--ink);
+    background:#FFFCF8;
+    margin-bottom:8px;
+  }
+  input[type="date"]:focus{outline:none;border-color:var(--primary);}
+  .error-msg{
+    color:var(--serious);
+    font-size:12.5px;
+    min-height:16px;
+    margin:0 0 10px;
+  }
+  button.primary-btn{
+    width:100%;
+    border:none;
+    background:linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color:#fff;
+    font-family:inherit;
+    font-size:16px;
+    font-weight:600;
+    padding:14px 16px;
+    border-radius:14px;
+    cursor:pointer;
+    box-shadow:0 10px 20px -8px rgba(225,83,57,0.55);
+    transition:transform .12s ease;
+  }
+  button.primary-btn:active{transform:scale(0.98);}
+  .disclaimer{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:14px;
+  }
+
+  /* ---------- LOADING SCREEN ---------- */
+  #screen-loading{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+  }
+  .mandala{
+    width:110px;height:110px;margin:0 auto 22px;
+    border-radius:50%;
+    background:
+      conic-gradient(from 0deg, var(--gold) 0deg 20deg, transparent 20deg 40deg,
+        var(--primary) 40deg 60deg, transparent 60deg 80deg,
+        var(--gold) 80deg 100deg, transparent 100deg 120deg,
+        var(--primary) 120deg 140deg, transparent 140deg 160deg,
+        var(--gold) 160deg 180deg, transparent 180deg 200deg,
+        var(--primary) 200deg 220deg, transparent 220deg 240deg,
+        var(--gold) 240deg 260deg, transparent 260deg 280deg,
+        var(--primary) 280deg 300deg, transparent 300deg 320deg,
+        var(--gold) 320deg 340deg, transparent 340deg 360deg);
+    animation:spin 1.4s linear infinite;
+    position:relative;
+  }
+  .mandala::after{
+    content:"🔮";
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    animation:spin-rev 1.4s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes spin-rev{to{transform:rotate(-360deg);}}
+  #screen-loading p{color:var(--ink-secondary);font-size:14px;}
+
+  /* ---------- RESULT SCREEN ---------- */
+  #screen-result{display:none;}
+
+  .profile-card{
+    background:linear-gradient(135deg, var(--gold-light), #FFF7E8);
+    border:1px solid rgba(201,151,29,0.25);
+  }
+  .profile-card .name-line{
+    text-align:center;
+    font-size:15px;
+    color:var(--ink-secondary);
+    margin-bottom:10px;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:14px;
+  }
+  .chip{
+    background:#fff;
+    border:1px solid rgba(43,32,22,0.10);
+    border-radius:999px;
+    padding:6px 12px;
+    font-size:12.5px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    color:var(--ink);
+  }
+  .chip b{color:var(--gold-dark);}
+  .mood-line{
+    text-align:center;
+    font-size:14.5px;
+    font-weight:500;
+    color:var(--ink);
+    padding-top:6px;
+    border-top:1px dashed rgba(43,32,22,0.15);
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:16px;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .section-sub{
+    font-size:12.5px;
+    color:var(--ink-secondary);
+    margin:0 0 16px;
+  }
+
+  .meter-row{margin-bottom:14px;}
+  .meter-row:last-child{margin-bottom:0;}
+  .meter-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:13.5px;
+    margin-bottom:5px;
+  }
+  .meter-top .cat-name{font-weight:600;display:flex;align-items:center;gap:6px;}
+  .meter-top .cat-score{font-weight:600;color:var(--ink-secondary);font-size:12.5px;}
+  .meter-track{
+    height:14px;
+    background:var(--track);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .meter-fill{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--gold), var(--primary));
+    width:0%;
+    transition:width 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .meter-desc{
+    font-size:12.5px;
+    color:var(--ink-secondary);
+    margin-top:5px;
+  }
+
+  .risk-item{
+    border:1px solid rgba(193,79,46,0.25);
+    background:var(--serious-bg);
+    border-radius:16px;
+    padding:14px 14px 12px;
+    margin-bottom:12px;
+  }
+  .risk-item:last-child{margin-bottom:0;}
+  .risk-head{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--serious);
+    margin-bottom:5px;
+  }
+  .risk-head .warn-badge{
+    background:var(--serious);
+    color:#fff;
+    font-size:10.5px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .risk-text{font-size:13.5px;color:var(--ink);margin:0;}
+
+  .reco-card{
+    border:1px solid rgba(201,151,29,0.35);
+    background:linear-gradient(180deg, #FFF9EC, #FFFFFF);
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .reco-card:last-child{margin-bottom:0;}
+  .reco-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--gold-dark);
+    background:var(--gold-light);
+    padding:3px 10px;
+    border-radius:999px;
+    margin-bottom:8px;
+  }
+  .reco-title{font-size:14.5px;font-weight:700;margin:0 0 6px;}
+  .reco-reason{font-size:13px;color:var(--ink-secondary);margin:0 0 12px;}
+  .reco-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--primary);
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:10px;
+  }
+  .reco-btn:hover{background:var(--primary-dark);}
+
+  details.full-breakdown{margin-bottom:16px;}
+  details.full-breakdown summary{
+    cursor:pointer;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--primary-dark);
+    padding:6px 0;
+    list-style:none;
+  }
+  details.full-breakdown summary::-webkit-details-marker{display:none;}
+  details.full-breakdown summary::before{content:"✦ ";}
+  details.full-breakdown[open] summary::before{content:"✧ ";}
+
+  .reset-row{text-align:center;margin-top:6px;}
+  button.ghost-btn{
+    background:transparent;
+    border:1.5px solid var(--border);
+    color:var(--ink-secondary);
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:12px;
+    cursor:pointer;
+  }
+  button.ghost-btn:hover{border-color:var(--primary);color:var(--primary-dark);}
+
+  footer.foot{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:18px;
+    padding:0 8px;
+  }
+  footer.foot a{color:var(--primary-dark);}
+
+  @media (max-width:360px){
+    .card{padding:20px 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="badge">🧡 แรงบันดาลใจจาก <a href="https://taejai.com" target="_blank" rel="noopener">taejai.com</a></div>
+    <h1>ผูก<span>ดวง</span>เสริมใจ</h1>
+    <p>ดูดวงวันเกิดสไตล์ไทย แล้วชวนไปเสริมดวงด้วยการให้</p>
+  </header>
+
+  <!-- ================= FORM SCREEN ================= -->
+  <section class="card" id="screen-form">
+    <div class="icon-row">🪷</div>
+    <h2>กรอกวันเกิดของคุณ</h2>
+    <p class="sub">เพื่อผูกดวงแบบไทย ดูว่าตอนนี้ดวงเป็นอย่างไร</p>
+
+    <label class="field-label" for="birthdate">วัน/เดือน/ปีเกิด</label>
+    <input type="date" id="birthdate" min="1920-01-01">
+    <p class="error-msg" id="error-msg"></p>
+
+    <button class="primary-btn" id="btn-submit">🔮 ผูกดวงตอนนี้</button>
+    <p class="disclaimer">เกมนี้จัดทำขึ้นเพื่อความบันเทิงและให้กำลังใจ อ้างอิงศาสตร์โหราศาสตร์ไทยเบื้องต้นผสมกลไกเกม ไม่ใช่คำพยากรณ์ที่แม่นยำทางวิทยาศาสตร์</p>
+  </section>
+
+  <!-- ================= LOADING SCREEN ================= -->
+  <section id="screen-loading">
+    <div class="mandala"></div>
+    <p>กำลังผูกดวง...</p>
+  </section>
+
+  <!-- ================= RESULT SCREEN ================= -->
+  <section id="screen-result">
+
+    <div class="card profile-card">
+      <p class="name-line" id="res-datestr"></p>
+      <div class="chip-row" id="res-chips"></div>
+      <p class="mood-line" id="res-mood"></p>
+    </div>
+
+    <div class="card">
+      <p class="section-title">✨ สถานการณ์ดวงตอนนี้</p>
+      <p class="section-sub">จุดเด่นของดวงคุณช่วงนี้ ใช้จังหวะนี้ให้เป็นประโยชน์</p>
+      <div id="res-highlights"></div>
+    </div>
+
+    <div class="card">
+      <p class="section-title">🔍 เจาะความเสี่ยงช่วงนี้</p>
+      <p class="section-sub">จุดที่ควรระวังเป็นพิเศษในระยะนี้ ตามการผูกดวงของคุณ</p>
+      <div id="res-risks"></div>
+    </div>
+
+    <div class="card">
+      <p class="section-title">🙏 แนวทางเสริมดวง</p>
+      <p class="section-sub">ลองไปร่วมสนับสนุนโครงการเหล่านี้บน taejai.com เพื่อเสริมพลังบวกในจุดที่ดวงอ่อนกำลัง</p>
+      <div id="res-recos"></div>
+    </div>
+
+    <div class="card">
+      <details class="full-breakdown">
+        <summary>ดูดวงครบทั้ง 8 ด้าน (ตามหลักทักษาไทย)</summary>
+        <div id="res-full" style="margin-top:12px;"></div>
+      </details>
+      <div class="reset-row">
+        <button class="ghost-btn" id="btn-reset">↺ ผูกดวงใหม่อีกครั้ง</button>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="foot">
+    ผลลัพธ์เปลี่ยนแปลงได้ทุกวันตามวันที่ปัจจุบัน · โครงการที่แนะนำอาจมีการเปลี่ยนแปลง ดูโครงการทั้งหมดได้ที่
+    <a href="https://taejai.com/th/projects" target="_blank" rel="noopener">taejai.com/projects</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+
+  /* ---------------- deterministic PRNG helpers ---------------- */
+  function cyrb53(str, seed){
+    seed = seed || 0;
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for(let i=0, ch; i<str.length; i++){
+      ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1>>>0);
+  }
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a>>>15, 1 | a);
+      t = t + Math.imul(t ^ t>>>7, 61 | t) ^ t;
+      return ((t ^ t>>>14) >>> 0) / 4294967296;
+    };
+  }
+  function seededRand(str){
+    const seed = Number(cyrb53(str) % 4294967296) >>> 0;
+    return mulberry32(seed)();
+  }
+
+  /* ---------------- Thai astrology reference data ---------------- */
+  const DAY_NAMES = ["วันอาทิตย์","วันจันทร์","วันอังคาร","วันพุธ","วันพฤหัสบดี","วันศุกร์","วันเสาร์"];
+  const DAY_INFO = [
+    {color:"สีแดง", planet:"พระอาทิตย์", trait:"ร่าเริง มั่นใจ มีภาวะผู้นำ"},
+    {color:"สีเหลือง", planet:"พระจันทร์", trait:"อ่อนโยน ประณีต ใส่ใจรายละเอียด"},
+    {color:"สีชมพู", planet:"พระอังคาร", trait:"กล้าหาญ บุกเบิก พลังเยอะ"},
+    {color:"สีเขียว", planet:"พระพุธ", trait:"ปรับตัวเก่ง พูดจาดี เข้ากับคนง่าย"},
+    {color:"สีส้ม", planet:"พระพฤหัสบดี", trait:"มีสติปัญญา รักการเรียนรู้ ให้คำปรึกษาคนอื่นเก่ง"},
+    {color:"สีฟ้า", planet:"พระศุกร์", trait:"มีเสน่ห์ รักสวยรักงาม รักความสัมพันธ์ที่ดี"},
+    {color:"สีม่วง", planet:"พระเสาร์", trait:"อดทน หนักแน่น มุ่งมั่นทำงานหนัก"}
+  ];
+  const ZODIAC = ["ชวด (หนู)","ฉลู (วัว)","ขาล (เสือ)","เถาะ (กระต่าย)","มะโรง (งูใหญ่)","มะเส็ง (งูเล็ก)","มะเมีย (ม้า)","มะแม (แพะ)","วอก (ลิง)","ระกา (ไก่)","จอ (หมา)","กุน (หมู)"];
+  const NUMEROLOGY = {
+    1:"ผู้นำ ชอบเริ่มต้นสิ่งใหม่", 2:"ประสานงานเก่ง อ่อนโยน สร้างสมดุล",
+    3:"สื่อสารเก่ง มีความคิดสร้างสรรค์", 4:"มั่นคง มีระเบียบ น่าเชื่อถือ",
+    5:"ยืดหยุ่น ชอบความเปลี่ยนแปลง", 6:"เอื้อเฟื้อ ดูแลคนรอบข้างดี",
+    7:"ช่างคิด ชอบศึกษาเชิงลึก", 8:"ทะเยอทะยาน โดดเด่นเรื่องเงินทอง",
+    9:"ใจกว้าง มีเมตตา ชอบทำเพื่อส่วนรวม"
+  };
+  const MONTH_TH = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+
+  /* 8 ทักษา positions mapped to modern life categories */
+  const CATS = [
+    {key:"parivara", name:"บริวาร · ครอบครัว & คนรอบข้าง", icon:"👨‍👩‍👧",
+      positive:["ช่วงนี้ความสัมพันธ์ในครอบครัวและคนรอบตัวคุณอบอุ่นเป็นพิเศษ ใครพูดอะไรก็มักเข้าใจกันง่าย","คนรอบข้างพร้อมสนับสนุนคุณเต็มที่ ทีมงานหรือคนในบ้านเห็นใจและช่วยเหลือกันดี"],
+      risk:["ช่วงนี้อาจมีเรื่องเข้าใจผิดเล็กๆ น้อยๆ กับคนในครอบครัวหรือคนใกล้ตัว ควรพูดคุยกันด้วยความใจเย็น","ลูกหลานหรือคนรอบข้างอาจต้องการความใส่ใจมากขึ้นเป็นพิเศษในช่วงนี้"],
+      reco:{tag:"เสริมดวงครอบครัว", title:"บ้านแห่งโอกาส เพื่อเด็ก ผู้หญิง และผู้ด้อยโอกาส", url:"https://taejai.com/en/project/ots-home-for-hope", reason:"ร่วมส่งต่อความอบอุ่นให้เด็กและผู้หญิงที่ต้องการที่พึ่งพิง เสริมพลังบวกด้านครอบครัวและคนรอบข้าง"}},
+    {key:"ayu", name:"อายุ · สุขภาพตัวเอง", icon:"💗",
+      positive:["สุขภาพร่างกายตอนนี้อยู่ในเกณฑ์ดี พลังงานเต็มเปี่ยม ทำอะไรก็คล่องตัว","ร่างกายฟื้นตัวเร็ว ภูมิต้านทานดี เหมาะกับการเริ่มกิจกรรมใหม่ๆ เพื่อสุขภาพ"],
+      risk:["ร่างกายเริ่มส่งสัญญาณเหนื่อยล้า ควรพักผ่อนให้เพียงพอและดูแลสุขภาพเป็นพิเศษ","ช่วงนี้ภูมิคุ้มกันอาจอ่อนลงเล็กน้อย ระวังเรื่องการพักผ่อนและอาหารการกิน"],
+      reco:{tag:"เสริมดวงสุขภาพ", title:"ศูนย์ยืมอุปกรณ์การแพทย์ เพื่อผู้ป่วยภาวะพึ่งพิงที่บ้าน", url:"https://taejai.com/en/project/sck-medical-care-thailife", reason:"ร่วมส่งต่ออุปกรณ์การแพทย์ให้ผู้ป่วยที่บ้าน เสริมสิริมงคลด้านสุขภาพให้แข็งแรงยั่งยืน"}},
+    {key:"dej", name:"เดช · การงาน", icon:"💼",
+      positive:["การงานกำลังไปได้สวย มีโอกาสได้รับความไว้วางใจหรือผลงานเป็นที่ยอมรับ","จังหวะนี้เหมาะกับการเสนอไอเดียใหม่ๆ เพราะดวงเดชกำลังหนุนให้ผลงานโดดเด่น"],
+      risk:["งานอาจสะดุดหรือมีอุปสรรคที่ทำให้ต้องปรับแผนกะทันหัน ควรใจเย็นและรอบคอบมากขึ้น","ช่วงนี้อาจมีความขัดแย้งเล็กๆ ในที่ทำงาน ควรสื่อสารให้ชัดเจนเพื่อลดความเข้าใจผิด"],
+      reco:{tag:"เสริมดวงการงาน", title:"สำรวจโครงการสร้างอาชีพและโอกาสใหม่บนเทใจ", url:"https://taejai.com/th/projects", reason:"สนับสนุนโครงการที่ช่วยสร้างงานสร้างโอกาสให้ผู้อื่น เสริมพลังบวกด้านหน้าที่การงานให้ราบรื่นขึ้น"}},
+    {key:"sri", name:"ศรี · ความรัก", icon:"💞",
+      positive:["เสน่ห์กำลังพุ่ง ความสัมพันธ์โดยรวมราบรื่น มีแต่คนอยากเข้าใกล้","ความรักและมิตรภาพในช่วงนี้อบอุ่น พูดอะไรก็มักได้ใจคนฟัง"],
+      risk:["ความสัมพันธ์อาจมีช่วงห่างเหินหรือเข้าใจกันยากขึ้นเล็กน้อย ลองเปิดใจคุยกันตรงๆ","เสน่ห์อาจแผ่วลงชั่วคราว ควรให้เวลาตัวเองและคนรักมากขึ้น"],
+      reco:{tag:"เสริมดวงความรัก", title:"บ้านแห่งโอกาส เพื่อเด็ก ผู้หญิง และผู้ด้อยโอกาส", url:"https://taejai.com/en/project/ots-home-for-hope", reason:"เติมพลังใจให้ความสัมพันธ์รอบตัว ผ่านการส่งต่อความรักและโอกาสให้ผู้อื่น"}},
+    {key:"moola", name:"มูละ · การเงิน", icon:"💰",
+      positive:["ดวงการเงินช่วงนี้มั่นคง มีโอกาสได้รับผลตอบแทนหรือรายได้เสริมเข้ามา","การเงินไหลลื่น เหมาะกับการวางแผนออมหรือลงทุนระยะยาว"],
+      risk:["การเงินช่วงนี้อาจมีรายจ่ายไม่คาดคิดเข้ามา ควรวางแผนสำรองเผื่อไว้","ดวงการเงินค่อนข้างผันผวน ควรระมัดระวังการใช้จ่ายฟุ่มเฟือย"],
+      reco:{tag:"เสริมดวงการเงิน", title:"กองทุนเทใจเพื่ออนาคตประเทศไทย", url:"https://taejai.com/en/project/futuregenerationfund", reason:"ร่วมสมทบทุนเพื่ออนาคตส่วนรวม เชื่อกันว่าการให้ช่วยเสริมสิริมงคลให้เงินทองหมุนเวียนคล่องตัว"}},
+    {key:"utsaha", name:"อุตสาหะ · การเรียน & ความบากบั่น", icon:"📚",
+      positive:["ความพยายามที่ผ่านมากำลังจะออกดอกออกผล ความบากบั่นของคุณไม่สูญเปล่า","สมองแล่น หัวไว เหมาะกับการเรียนรู้สิ่งใหม่หรือลุยงานที่ค้างอยู่"],
+      risk:["ความพยายามอาจยังไม่เห็นผลชัดเจนในตอนนี้ อย่าเพิ่งท้อ เพราะแรงส่งกำลังสะสมอยู่","การเรียนหรืองานที่ต้องใช้สมาธิอาจติดขัด ลองแบ่งเวลาพักสมองบ้าง"],
+      reco:{tag:"เสริมดวงการเรียน", title:"ทุนการศึกษา Catalyst Scholarship Program", url:"https://taejai.com/en/project/chd-catalyst-scholarship-program", reason:"สนับสนุนทุนการศึกษาให้น้องๆ เชื่อกันว่าการให้ความรู้ช่วยเสริมพลังสติปัญญาและความบากบั่นของตัวเราไปพร้อมกัน"}},
+    {key:"montri", name:"มนตรี · ผู้ใหญ่ในบ้าน & ผู้อุปถัมภ์", icon:"🧓",
+      positive:["ผู้ใหญ่และผู้อุปถัมภ์รอบตัวคุณแข็งแรงดี พร้อมให้คำแนะนำและแรงสนับสนุน","ดวงผู้อุปถัมภ์กำลังหนุนดี อาจมีผู้ใหญ่ยื่นมือช่วยเหลือโดยไม่คาดคิด"],
+      risk:["ผู้ใหญ่หรือผู้สูงอายุในบ้านอาจมีเรื่องสุขภาพที่ต้องเฝ้าระวังเป็นพิเศษในช่วงนี้","ดวงผู้อุปถัมภ์อ่อนกำลังลงเล็กน้อย ควรหมั่นดูแลเอาใจใส่ผู้ใหญ่ในบ้านให้มากขึ้น"],
+      reco:{tag:"เสริมดวงผู้ใหญ่-ผู้สูงอายุ", title:"30 ปีแห่งแสงสว่าง: ผ่าตัดต้อกระจกให้ผู้สูงอายุ", url:"https://taejai.com/en/project/eld-eyecare-2025", reason:"ร่วมดูแลดวงตาและสุขภาพผู้สูงอายุ เสริมดวงด้านผู้ใหญ่ผู้อุปถัมภ์ในบ้านให้แข็งแรงปลอดภัย"}},
+    {key:"kalakini", name:"กาลกิณี · อุปสรรค & ความลื่นไหลของชีวิต", icon:"🌊",
+      positive:["อุปสรรคในชีวิตช่วงนี้เบาบาง ทุกอย่างไหลลื่นกว่าที่คิด","สิ่งกีดขวางที่เคยติดขัดเริ่มคลี่คลาย ไปทางไหนก็พบทางออกง่ายขึ้น"],
+      risk:["ชีวิตช่วงนี้อาจรู้สึกไม่ลื่นไหล ติดขัดในหลายเรื่องโดยไม่รู้สาเหตุ","มีสิ่งกีดขวางแทรกซ้อนเข้ามาบ้าง ทำให้แผนที่วางไว้อาจต้องปรับเปลี่ยนกะทันหัน"],
+      reco:{tag:"เสริมดวงให้ชีวิตลื่นไหล", title:"กองทุนส่งเสริมเขตอนุรักษ์ทะเลโดยชุมชนประมงพื้นบ้าน", url:"https://taejai.com/th/project/cmpa/timeline", reason:"ร่วมอนุรักษ์ทะเลและแหล่งน้ำ เชื่อกันว่าการดูแลสายน้ำช่วยเสริมดวงให้ชีวิตไหลลื่น ไม่ติดขัด"}}
+  ];
+
+  const FALLBACK_RECO = {tag:"เสริมดวงโดยรวม", title:"โครงการเทใจ1 · กองทุนกลางเพื่อสังคม", url:"https://taejai.com/th/project/support_taejai", reason:"ช่วงนี้ดวงค่อนข้างนิ่ง ไม่มีจุดเสี่ยงเด่นชัด การร่วมทำบุญเสริมดวงทั่วไปก็ยังช่วยเพิ่มพลังบวกให้ชีวิตได้เสมอ"};
+
+  /* ---------------- state & DOM ---------------- */
+  const $ = (id) => document.getElementById(id);
+  const screenForm = $("screen-form"), screenLoading = $("screen-loading"), screenResult = $("screen-result");
+
+  $("btn-submit").addEventListener("click", onSubmit);
+  $("btn-reset").addEventListener("click", () => {
+    screenResult.style.display = "none";
+    screenForm.style.display = "block";
+  });
+
+  function onSubmit(){
+    const val = $("birthdate").value;
+    const errEl = $("error-msg");
+    errEl.textContent = "";
+    if(!val){
+      errEl.textContent = "กรุณาเลือกวันเกิดก่อนนะ";
+      return;
+    }
+    const bd = new Date(val + "T12:00:00");
+    const today = new Date();
+    if(bd.getTime() > today.getTime()){
+      errEl.textContent = "วันเกิดต้องไม่ใช่วันในอนาคตนะ";
+      return;
+    }
+    screenForm.style.display = "none";
+    screenLoading.style.display = "block";
+    setTimeout(() => {
+      renderResult(bd, today);
+      screenLoading.style.display = "none";
+      screenResult.style.display = "block";
+      window.scrollTo({top:0, behavior:"smooth"});
+    }, 1400);
+  }
+
+  function computeProfile(bd){
+    const dow = bd.getDay();
+    const info = DAY_INFO[dow];
+    const beYear = bd.getFullYear() + 543;
+    const zodiacIdx = (((bd.getFullYear() - 2020) % 12) + 12) % 12;
+    const zodiac = ZODIAC[zodiacIdx];
+    const digits = (bd.getDate() + "" + (bd.getMonth()+1) + "" + bd.getFullYear()).split("").reduce((s,d)=>s+Number(d),0);
+    let num = digits;
+    while(num > 9){ num = String(num).split("").reduce((s,d)=>s+Number(d),0); }
+    if(num === 0) num = 9;
+    return {dow, dayName:DAY_NAMES[dow], info, beYear, zodiac, num, numMeaning:NUMEROLOGY[num]};
+  }
+
+  function computeScores(bd, today){
+    const birthISO = bd.toISOString().slice(0,10);
+    const todayISO = today.toISOString().slice(0,10);
+    return CATS.map(cat => {
+      const r1 = seededRand(birthISO + "|" + todayISO + "|" + cat.key + "|score");
+      const score = Math.round(28 + r1 * 70); // 28-98
+      const r2 = seededRand(birthISO + "|" + todayISO + "|" + cat.key + "|variant");
+      const variant = r2 < 0.5 ? 0 : 1;
+      return {...cat, score, variant};
+    });
+  }
+
+  function renderResult(bd, today){
+    const profile = computeProfile(bd);
+    const scored = computeScores(bd, today);
+    const sorted = [...scored].sort((a,b) => b.score - a.score);
+    const highlights = sorted.slice(0,3);
+    const risks = [...sorted].sort((a,b)=>a.score-b.score).slice(0,2);
+
+    // header
+    const dateStr = `${bd.getDate()} ${MONTH_TH[bd.getMonth()]} ${profile.beYear} (${profile.dayName})`;
+    $("res-datestr").textContent = `เกิดวัน ${dateStr}`;
+
+    $("res-chips").innerHTML = `
+      <span class="chip">🎨 สีมงคล <b>${profile.info.color}</b></span>
+      <span class="chip">🪐 ดาวประจำวัน <b>${profile.info.planet}</b></span>
+      <span class="chip">🐉 ปีนักษัตร <b>${profile.zodiac}</b></span>
+      <span class="chip">🔢 เลขศาสตร์ <b>${profile.num}</b></span>
+    `;
+
+    const avgScore = Math.round(scored.reduce((s,c)=>s+c.score,0)/scored.length);
+    let moodLine;
+    if(avgScore >= 70) moodLine = `ภาพรวมดวงตอนนี้ค่อนข้างสดใส ✨ เป็นช่วงเวลาที่เหมาะกับการลงมือทำสิ่งที่ตั้งใจไว้`;
+    else if(avgScore >= 55) moodLine = `ภาพรวมดวงตอนนี้อยู่ในเกณฑ์ดี มีทั้งจุดแข็งและจุดที่ควรระวังปะปนกัน`;
+    else moodLine = `ช่วงนี้ดวงอาจต้องอาศัยความใจเย็นสักหน่อย แต่ทุกอย่างเสริมกันได้เสมอ`;
+    $("res-mood").textContent = moodLine + ` (คนวันนี้มักเป็นคน${profile.info.trait} และมีแนวโน้ม${profile.numMeaning})`;
+
+    // highlights
+    $("res-highlights").innerHTML = highlights.map(c => meterRowHTML(c, c.positive[c.variant])).join("");
+
+    // risks
+    $("res-risks").innerHTML = risks.map(c => `
+      <div class="risk-item">
+        <div class="risk-head"><span>${c.icon} ${c.name}</span><span class="warn-badge">ควรระวัง</span></div>
+        <p class="risk-text">${c.risk[c.variant]}</p>
+      </div>
+    `).join("");
+
+    // recommendations — one per risk category, de-duplicated by url
+    const seenUrls = new Set();
+    let recoCards = [];
+    risks.forEach(c => {
+      if(!seenUrls.has(c.reco.url)){
+        seenUrls.add(c.reco.url);
+        recoCards.push(recoHTML(c.reco));
+      }
+    });
+    if(recoCards.length === 0){
+      recoCards.push(recoHTML(FALLBACK_RECO));
+    }
+    $("res-recos").innerHTML = recoCards.join("");
+
+    // full breakdown
+    $("res-full").innerHTML = sorted
+      .sort((a,b)=> CATS.findIndex(x=>x.key===a.key) - CATS.findIndex(x=>x.key===b.key))
+      .map(c => meterRowHTML(c, c.score >= avgScore ? c.positive[c.variant] : c.risk[c.variant])).join("");
+
+    // animate meters after paint
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".meter-fill").forEach(el => {
+        el.style.width = el.dataset.score + "%";
+      });
+    });
+  }
+
+  function meterRowHTML(c, desc){
+    return `
+      <div class="meter-row">
+        <div class="meter-top">
+          <span class="cat-name">${c.icon} ${c.name}</span>
+          <span class="cat-score">${c.score}/100</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" data-score="${c.score}"></div></div>
+        <p class="meter-desc">${desc}</p>
+      </div>
+    `;
+  }
+
+  function recoHTML(r){
+    return `
+      <div class="reco-card">
+        <span class="reco-tag">🧡 ${r.tag}</span>
+        <p class="reco-title">${r.title}</p>
+        <p class="reco-reason">${r.reason}</p>
+        <a class="reco-btn" href="${r.url}" target="_blank" rel="noopener">ไปดูโครงการที่เทใจ →</a>
+      </div>
+    `;
+  }
+
+})();
+</script>
+</body>
+</html>
